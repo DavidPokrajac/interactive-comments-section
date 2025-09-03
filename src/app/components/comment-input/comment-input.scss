@@ -1,0 +1,37 @@
+.form {
+  width: 730px;
+  max-width: 100%;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  background-color: var(--clr-white);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  .textarea {
+    flex-grow: 1;
+    border: 1px solid var(--clr-grey-100);
+    border-radius: 8px;
+    resize: none;
+    padding: 8px 16px;
+
+    &::placeholder {
+      color: var(--clr-grey-500);
+    }
+  }
+
+  .submit-btn {
+    text-transform: uppercase;
+    background-color: var(--clr-purple-600);
+    color: var(--clr-white);
+    line-height: 1.5;
+    padding: 12px 32px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--clr-purple-200);
+    }
+  }
+}

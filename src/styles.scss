@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use "./app/app.scss";
+@use "./app/sass/abstracts/" as *;
+@use "./app/sass/base/global" as *;
+@use "./app/sass/components/likesHandler" as *;
+@use "./app/sass/components/comment" as *;

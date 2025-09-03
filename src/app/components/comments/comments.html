@@ -1,0 +1,140 @@
+@for(comment of commentsList(); track comment.id) {
+<div class="comment">
+  <div class="likes-handler">
+    <button (click)="comments.increaseLikes(comment)">
+      <img src="/images/icon-plus.svg" width="10.07" height="10" alt="" />
+    </button>
+    <span class="scores">{{ comment.score }}</span>
+    <button (click)="comments.decreaseLikes(comment)">
+      <img src="/images/icon-minus.svg" width="10" height="2.5" alt="" />
+    </button>
+  </div>
+  <div>
+    <div class="comment-details">
+      <img [src]="comment.user.image.webp" alt="" class="user-profile" />
+      <span class="username"
+        >{{ comment.user.username }}
+        @if(isCurrentUser === comment.user.username) {
+        <span class="you-badge">you</span>
+        }
+      </span>
+      <span class="created-at">{{ comment.createdAt }}</span>
+      @if(isCurrentUser === comment.user.username) {
+      <button
+        (click)="comments.showDeleteModal(comment.id, true)"
+        class="delete-btn"
+      >
+        <img src="/images/icon-delete.svg" alt="" />Delete
+      </button>
+      }
+      <button
+        (click)="
+          isCurrentUser === comment.user.username
+            ? updateText(comment.id)
+            : replyTo(comment.id)
+        "
+        class="reply-btn"
+      >
+        <img
+          [src]="
+            isCurrentUser === comment.user.username
+              ? '/images/icon-edit.svg'
+              : '/images/icon-reply.svg'
+          "
+          alt=""
+          width="14"
+          height="12"
+        />{{ isCurrentUser === comment.user.username ? "Edit" : "Reply" }}
+      </button>
+    </div>
+    <p
+      class="comment-content"
+      [contentEditable]="isEditing() === true && idToEdit === comment.id"
+    >
+      {{ comment.content }}
+    </p>
+  </div>
+  @if(isEditing() === true && idToEdit === comment.id) {
+  <button (click)="finishText()" class="btn-update">update</button>}
+</div>
+@if(willReply.willReply()[0] === true && willReply.willReply()[1] ===
+comment.id) {
+<app-comment-input
+  [isReply]="willReply.willReply()"
+  (addCommentEvent)="addComment.addComment($event, comment.id)"
+  label="Reply"
+/>
+}
+<div class="replies">
+  @if(comment.replies) { @for(reply of comment.replies; track reply.id) {
+  <div class="comment">
+    <div class="likes-handler">
+      <button (click)="comments.increaseLikes(reply)">
+        <img src="/images/icon-plus.svg" alt="" />
+      </button>
+      <span class="scores">{{ reply.score }}</span>
+      <button (click)="comments.decreaseLikes(reply)">
+        <img src="/images/icon-minus.svg" alt="" />
+      </button>
+    </div>
+    <div>
+      <div class="comment-details">
+        <img [src]="reply.user.image.webp" alt="" class="user-profile" />
+        <span class="username"
+          >{{ reply.user.username }}
+          @if(isCurrentUser === reply.user.username) {
+          <span class="you-badge">you</span>
+          }
+        </span>
+        <span class="created-at">{{ reply.createdAt }}</span>
+        @if(isCurrentUser === reply.user.username) {
+        <button
+          (click)="comments.showDeleteModal(comment.id, false, reply.id)"
+          class="delete-btn"
+        >
+          <img src="/images/icon-delete.svg" alt="" />Delete
+        </button>
+        }
+        <button
+          (click)="
+            isCurrentUser === reply.user.username
+              ? updateText(reply.id)
+              : replyTo(reply.id)
+          "
+          class="reply-btn"
+        >
+          <img
+            [src]="
+              isCurrentUser === reply.user.username
+                ? '/images/icon-edit.svg'
+                : '/images/icon-reply.svg'
+            "
+            alt=""
+          />{{ isCurrentUser === reply.user.username ? "Edit" : "Reply" }}
+        </button>
+      </div>
+      <p
+        class="comment-content"
+        [contentEditable]="isEditing() === true && idToEdit === reply.id"
+        #commentContent
+        role="textbox"
+      >
+        @if(comment.replies.length > 0) {
+        <span class="tagged-user">{{ "@" + comment.user.username }}</span>
+        }
+        {{ reply.content }}
+      </p>
+    </div>
+    @if(isEditing() === true && idToEdit === reply.id) {
+    <button (click)="finishText()" class="btn-update">update</button>}
+  </div>
+  @if(willReply.willReply()[0] === true && willReply.willReply()[1] ===
+  reply.id) {
+  <app-comment-input
+    [isReply]="willReply.willReply()"
+    (addCommentEvent)="addComment.addComment($event, comment.id)"
+    label="Reply"
+  />
+  } } }
+</div>
+}

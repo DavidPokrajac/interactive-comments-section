@@ -1,0 +1,16 @@
+button {
+  border: none;
+  background-color: transparent;
+}
+
+button,
+textarea,
+input,
+select {
+  font: inherit;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  background-color: var(--clr-grey-50);
+}

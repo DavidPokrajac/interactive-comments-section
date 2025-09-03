@@ -1,0 +1,17 @@
+<form [formGroup]="newComment" (ngSubmit)="addComment($event)" class="form">
+  <img [src]="currentUser.image.png" width="40" height="40" alt="" />
+  <textarea
+    name=""
+    id=""
+    placeholder="Add a comment..."
+    formControlName="content"
+    class="textarea"
+  ></textarea>
+  <button
+    [disabled]="this.newComment.getRawValue().content.length > 0 ? false : true"
+    type="submit"
+    class="submit-btn"
+  >
+    {{ label() }}
+  </button>
+</form>

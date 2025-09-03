@@ -1,0 +1,19 @@
+.replies {
+  max-width: 684px;
+  width: 100%;
+  padding-left: 40px;
+  border-left: 1px solid var(--clr-grey-100);
+  place-self: end;
+
+  &:has(.comment) {
+    margin-bottom: 24px;
+  }
+
+  & > .comment:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.tagged-user {
+  color: var(--clr-purple-600);
+}
