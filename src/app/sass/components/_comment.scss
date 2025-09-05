@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-wrap: wrap;
 
     .you-badge {
       background-color: var(--clr-purple-600);
@@ -87,5 +88,117 @@
     padding: 12px 32px;
     border-radius: 8px;
     margin-top: 16px;
+  }
+}
+
+@media (max-width: 630px) {
+  .comment {
+    .comment-details:has(.you-badge) {
+      flex-wrap: wrap;
+      row-gap: 4px;
+
+      .reply-btn {
+        margin-left: auto;
+      }
+    }
+
+    .comment-details:has(.you-badge) .reply-btn {
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 547px) {
+  .comment {
+    .comment-details:has(.you-badge) .reply-btn {
+      margin-left: 0;
+      left: calc(100% - 70px);
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .comment {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    position: relative;
+    gap: 16px;
+    padding: 16px;
+
+    .comment-content {
+      margin-top: 16px;
+    }
+  }
+
+  .comment:has(.btn-update) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+  }
+
+  .comment:has(.btn-update) .likes-handler {
+    grid-row: 3 / 4;
+    grid-column: 1;
+  }
+
+  .comment:has(.btn-update) .comment-details,
+  .comment:has(.btn-update) .comment-content {
+    grid-column: 1 / 2;
+  }
+
+  .comment:has(.btn-update) .btn-update {
+    grid-row: 2;
+    grid-column: 1;
+    margin-top: 0;
+  }
+
+  .delete-btn {
+    position: absolute;
+    left: calc(100% - 170px);
+    top: calc(100% - 50px);
+  }
+
+  .reply-btn {
+    position: absolute;
+    left: calc(100% - 85px);
+    top: calc(100% - 50px);
+  }
+}
+
+/* @media (max-width: 380px) {
+  .delete-btn {
+    left: calc(100% - 160px);
+  }
+
+  .reply-btn {
+    left: calc(100% - 80px);
+  }
+} */
+
+@media (max-width: 400px) {
+  .comment:has(.you-badge) {
+    grid-template-rows: repeat(2, auto) 25px;
+
+    .delete-btn {
+      left: 16px;
+      top: calc(100% - 40px);
+    }
+
+    .reply-btn {
+      top: calc(100% - 40px);
+    }
+  }
+
+  .comment:has(.btn-update) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto) 25px;
+
+    .delete-btn {
+      left: 16px;
+      top: calc(100% - 40px);
+    }
+
+    .reply-btn {
+      top: calc(100% - 40px);
+    }
   }
 }

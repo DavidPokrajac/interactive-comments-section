@@ -2,7 +2,7 @@
   max-width: 684px;
   width: 100%;
   padding-left: 40px;
-  border-left: 1px solid var(--clr-grey-100);
+  border-left: 2px solid var(--clr-grey-100);
   place-self: end;
 
   &:has(.comment) {
@@ -16,4 +16,21 @@
 
 .tagged-user {
   color: var(--clr-purple-600);
+}
+
+@media (max-width: 768px) {
+  .replies {
+    width: calc(100% - 40px);
+
+    .comment {
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 676px) {
+  .replies {
+    width: 100%;
+    padding-left: 16px;
+  }
 }

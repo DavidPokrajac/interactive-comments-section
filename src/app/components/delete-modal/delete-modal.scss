@@ -57,3 +57,25 @@
     }
   }
 }
+
+@media (max-width: 450px) {
+  .modal {
+    width: 90%;
+    padding: 24px;
+
+    div {
+      .button {
+        padding: 12px 22px;
+      }
+    }
+  }
+}
+
+@media (max-width: 376px) {
+  .modal {
+    div {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+}

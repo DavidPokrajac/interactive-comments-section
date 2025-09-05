@@ -28,6 +28,8 @@ export class CommentInput {
     score: number;
     isReplying: unknown;
     id: string;
+    createdAt: string;
+    replyingTo?: string;
   }>();
 
   newComment = new FormGroup({
@@ -52,6 +54,8 @@ export class CommentInput {
       },
       score: 0,
       isReplying: this.isReply() ? true : false,
+      createdAt: 'now',
+      replyingTo: '',
     });
   }
 }

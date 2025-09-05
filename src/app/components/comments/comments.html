@@ -116,11 +116,13 @@ comment.id) {
       <p
         class="comment-content"
         [contentEditable]="isEditing() === true && idToEdit === reply.id"
+        [tabIndex]="-1"
         #commentContent
-        role="textbox"
       >
         @if(comment.replies.length > 0) {
-        <span class="tagged-user">{{ "@" + comment.user.username }}</span>
+        <span class="tagged-user"
+          >@{{ reply.replyingTo ?? comment.user.username }}</span
+        >
         }
         {{ reply.content }}
       </p>
@@ -132,7 +134,7 @@ comment.id) {
   reply.id) {
   <app-comment-input
     [isReply]="willReply.willReply()"
-    (addCommentEvent)="addComment.addComment($event, comment.id)"
+    (addCommentEvent)="addComment.addComment($event, reply.id)"
     label="Reply"
   />
   } } }

@@ -23,3 +23,12 @@
     color: var(--clr-purple-600);
   }
 }
+
+@media (max-width: 500px) {
+  .likes-handler {
+    grid-row: 2;
+    flex-direction: row;
+    height: auto;
+    padding: 8px 16px;
+  }
+}

@@ -49,12 +49,34 @@ export class CommentsService {
   }
 
   addComment(event: any, id?: number | string) {
+    // console.log(event);
+    // console.log(id);
     this.datePublished.set(event.commentDate);
     if (event.isReplying) {
       this.comments.update((commentsList) => {
-        const findIndex = commentsList.findIndex((v) => v.id === id);
-        commentsList[findIndex].replies.push(event);
-        return commentsList;
+        /* console.log(
+          commentsList.find((x) => x.replies.some((y) => y.id === id))
+        ); */
+        if (commentsList.find((x) => x.replies.some((y) => y.id === id))) {
+          const lol = commentsList.find((x) =>
+            x.replies.some((y) => y.id === id)
+          );
+
+          const lmao = lol!.replies.findIndex((y) => y.id === id);
+
+          lol!.replies.push(event);
+          lol!.replies[lol!.replies.length - 1].replyingTo =
+            lol!.replies[lmao].user.username;
+          event.replyingTo = lol!.replies[lmao].user.username;
+          console.log(lol!.replies[lol!.replies.length - 1]);
+          console.log(lol);
+          return commentsList;
+        } else {
+          const findIndex = commentsList.findIndex((v) => v.id === id);
+          event.replyingTo = commentsList[findIndex].user.username;
+          commentsList[findIndex].replies.push(event);
+          return commentsList;
+        }
       });
     } else {
       this.comments.set([...this.comments(), event]);

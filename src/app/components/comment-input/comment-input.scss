@@ -6,7 +6,8 @@
   background-color: var(--clr-white);
   border-radius: 8px;
   padding: 24px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: flex-start;
   gap: 16px;
 
@@ -32,6 +33,23 @@
 
     &:hover {
       background-color: var(--clr-purple-200);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .form {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+    align-items: center;
+
+    .textarea {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    .submit-btn {
+      place-self: end;
     }
   }
 }
