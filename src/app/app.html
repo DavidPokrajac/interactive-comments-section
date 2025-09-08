@@ -1,7 +1,7 @@
 <main class="main">
   <app-comments [commentsList]="comments.comments()" class="comments" />
   <app-comment-input
-    (addCommentEvent)="addComment.addComment($event)"
+    (addCommentEvent)="comments.addComment($event)"
     label="Send"
   />
   @if(comments.isToDelete()) {

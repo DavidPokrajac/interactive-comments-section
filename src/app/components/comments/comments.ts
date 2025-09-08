@@ -4,8 +4,9 @@ import {
   signal,
   inject,
   output,
-  ViewChildren,
   QueryList,
+  ViewChildren,
+  ElementRef,
 } from '@angular/core';
 import { CommentInput } from '../comment-input/comment-input';
 import { CommentsService } from '../../services/comments';
@@ -30,16 +31,20 @@ export class Comments {
 
   isCurrentUser = currentUser.currentUser.username;
   repTo = output<string>();
-
   isEditing = signal<boolean>(false);
 
-  @ViewChildren('commentContent') commentEl!: QueryList<any>;
+  @ViewChildren('commentContent') commentEl!: QueryList<ElementRef>;
 
   updateText(id: number) {
     this.idToEdit = id;
     this.isEditing.set(true);
-    const targetElement = this.commentEl.filter((el) => el.id === id);
-    console.log(targetElement);
+    let commentWithReplyID = this.comments.comments().filter((replies) => {
+      return replies.replies.some((reply) => reply.id === id);
+    });
+    let filtered = commentWithReplyID[0].replies.findIndex(
+      (reply) => reply.id === id
+    );
+    this.commentEl.toArray()[filtered].nativeElement.focus();
   }
 
   finishText() {
@@ -58,6 +63,4 @@ export class Comments {
     this.replyingTo.replyTo(event);
     this.repTo.emit(this.isCurrentUser);
   }
-
-  constructor() {}
 }

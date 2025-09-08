@@ -1,6 +1,6 @@
 .form {
-  width: 730px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 730px;
   margin: 0 auto;
   margin-bottom: 24px;
   background-color: var(--clr-white);
@@ -21,6 +21,13 @@
     &::placeholder {
       color: var(--clr-grey-500);
     }
+
+    &:hover,
+    &:focus-visible {
+      outline: none;
+      border: 1px solid var(--clr-purple-600);
+      cursor: pointer;
+    }
   }
 
   .submit-btn {
@@ -32,6 +39,7 @@
     border-radius: 8px;
 
     &:hover {
+      cursor: pointer;
       background-color: var(--clr-purple-200);
     }
   }

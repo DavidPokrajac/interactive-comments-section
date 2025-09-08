@@ -9,5 +9,4 @@ import { CommentsService } from '../../services/comments';
 })
 export class DeleteModal {
   modal = inject(CommentsService);
-  isComment = this.modal.isComment;
 }

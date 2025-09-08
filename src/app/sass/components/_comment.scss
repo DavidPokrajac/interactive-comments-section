@@ -29,6 +29,12 @@
     grid-column: 2;
     margin-top: 24px;
     color: var(--clr-grey-500);
+
+    &:focus {
+      border: 1px solid var(--clr-purple-600);
+      border-radius: 8px;
+      padding: 8px 16px;
+    }
   }
 
   .user-profile {
@@ -57,6 +63,10 @@
     &:hover {
       cursor: pointer;
       color: var(--clr-purple-200);
+
+      img {
+        filter: opacity(0.25);
+      }
     }
   }
 
@@ -71,6 +81,11 @@
     &:hover {
       cursor: pointer;
       color: var(--clr-pink-200);
+      opacity: 1;
+
+      img {
+        filter: opacity(0.25);
+      }
     }
   }
 
@@ -88,6 +103,11 @@
     padding: 12px 32px;
     border-radius: 8px;
     margin-top: 16px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--clr-purple-200);
+    }
   }
 }
 

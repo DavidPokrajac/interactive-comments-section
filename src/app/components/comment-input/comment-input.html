@@ -1,5 +1,10 @@
 <form [formGroup]="newComment" (ngSubmit)="addComment($event)" class="form">
-  <img [src]="currentUser.image.png" width="40" height="40" alt="" />
+  <img
+    [src]="currentUser.image.png"
+    width="40"
+    height="40"
+    [alt]="'A mugshot of a user called ' + currentUser.username"
+  />
   <textarea
     name=""
     id=""

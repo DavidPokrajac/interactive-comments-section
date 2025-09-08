@@ -13,5 +13,4 @@ import { DeleteModal } from './components/delete-modal/delete-modal';
 export class App {
   protected readonly title = signal('interactive-comments-section');
   comments = inject(CommentsService);
-  addComment = inject(CommentsService);
 }

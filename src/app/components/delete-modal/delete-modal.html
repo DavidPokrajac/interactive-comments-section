@@ -11,7 +11,7 @@
       </button>
       <button
         (click)="
-          isComment()
+          this.modal.isComment()
             ? modal.deleteComment(modal.commentId())
             : modal.deleteReply(modal.commentId(), modal.replyId())
         "

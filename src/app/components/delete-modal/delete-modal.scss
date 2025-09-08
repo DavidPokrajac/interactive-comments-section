@@ -49,10 +49,20 @@
 
       &.cancel {
         background-color: var(--clr-grey-500);
+
+        &:hover {
+          cursor: pointer;
+          background-color: var(--clr-grey-100);
+        }
       }
 
       &.delete {
         background-color: var(--clr-pink-400);
+
+        &:hover {
+          cursor: pointer;
+          background-color: var(--clr-pink-200);
+        }
       }
     }
   }

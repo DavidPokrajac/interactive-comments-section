@@ -1,27 +1,31 @@
 import { Injectable, signal } from '@angular/core';
 import comments from '../../../data.json';
+import { CommentModel } from '../models/comment-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
   comments = signal(comments.comments);
-  willReply = signal([false, null]);
-
-  replyTo(event: any) {
-    this.willReply.set([true, event]);
-  }
-
+  willReply = signal<[boolean, number | string | null]>([false, null]);
   isToDelete = signal<boolean>(false);
   commentId = signal<string | number>('');
   replyId = signal<string | number>('');
   isComment = signal<boolean>(false);
-  datePublished = signal<any>(null);
+  datePublished = signal<string>('');
 
-  showDeleteModal(id: any, isComment: boolean, replyId?: any) {
+  replyTo(eventID: number | string) {
+    this.willReply.set([true, eventID]);
+  }
+
+  showDeleteModal(
+    id: number | string,
+    isComment: boolean,
+    replyId?: number | string
+  ) {
     this.isToDelete.set(true);
-    this.commentId.set(id as any);
-    this.replyId.set(replyId as any);
+    this.commentId.set(id);
+    this.replyId.set(replyId as number | string);
     this.isComment.set(isComment);
   }
 
@@ -31,8 +35,10 @@ export class CommentsService {
 
   deleteComment(id: number | string) {
     this.comments.update((commentsList) => {
-      const hey = commentsList.findIndex((v) => v.id === id);
-      commentsList.splice(hey, 1);
+      const commentIndex = commentsList.findIndex(
+        (comment) => comment.id === id
+      );
+      commentsList.splice(commentIndex, 1);
       return commentsList;
     });
     this.closeModal();
@@ -40,88 +46,106 @@ export class CommentsService {
 
   deleteReply(commentId: number | string, id?: number | string) {
     this.comments.update((commentsList) => {
-      const hey = commentsList.filter((v) => v.id === commentId);
-      const reply = hey[0].replies.findIndex((r) => r.id === id);
-      hey[0].replies.splice(reply, 1);
+      const commentWithReplyID = commentsList.filter(
+        (comment) => comment.id === commentId
+      );
+      const reply = commentWithReplyID[0].replies.findIndex(
+        (reply) => reply.id === id
+      );
+      commentWithReplyID[0].replies.splice(reply, 1);
       return commentsList;
     });
     this.closeModal();
   }
 
-  addComment(event: any, id?: number | string) {
-    // console.log(event);
-    // console.log(id);
-    this.datePublished.set(event.commentDate);
-    if (event.isReplying) {
+  addComment(comment: any, id?: number | string) {
+    this.datePublished.set(comment.commentDate);
+    if (comment.isReplying) {
       this.comments.update((commentsList) => {
-        /* console.log(
-          commentsList.find((x) => x.replies.some((y) => y.id === id))
-        ); */
-        if (commentsList.find((x) => x.replies.some((y) => y.id === id))) {
-          const lol = commentsList.find((x) =>
-            x.replies.some((y) => y.id === id)
+        if (
+          commentsList.find((comment) =>
+            comment.replies.some((reply) => reply.id === id)
+          )
+        ) {
+          const replyWithID = commentsList.find((comment) =>
+            comment.replies.some((reply) => reply.id === id)
+          );
+          const replyIndex = replyWithID!.replies.findIndex(
+            (reply) => reply.id === id
           );
 
-          const lmao = lol!.replies.findIndex((y) => y.id === id);
-
-          lol!.replies.push(event);
-          lol!.replies[lol!.replies.length - 1].replyingTo =
-            lol!.replies[lmao].user.username;
-          event.replyingTo = lol!.replies[lmao].user.username;
-          console.log(lol!.replies[lol!.replies.length - 1]);
-          console.log(lol);
+          replyWithID!.replies.push(comment);
+          replyWithID!.replies[replyWithID!.replies.length - 1].replyingTo =
+            replyWithID!.replies[replyIndex].user.username;
+          comment.replyingTo = replyWithID!.replies[replyIndex].user.username;
           return commentsList;
         } else {
-          const findIndex = commentsList.findIndex((v) => v.id === id);
-          event.replyingTo = commentsList[findIndex].user.username;
-          commentsList[findIndex].replies.push(event);
+          const commentIndex = commentsList.findIndex(
+            (comment) => comment.id === id
+          );
+          comment.replyingTo = commentsList[commentIndex].user.username;
+          commentsList[commentIndex].replies.push(comment);
           return commentsList;
         }
       });
     } else {
-      this.comments.set([...this.comments(), event]);
+      this.comments.set([...this.comments(), comment]);
     }
   }
 
-  increaseLikes(score: any) {
-    if (score.hasOwnProperty('replyingTo')) {
-      this.comments.update((value) => {
-        const hi = value.filter((v) => v.replies.length !== 0);
-        const hello = hi.filter((v) =>
-          v.replies.find((c) => c.id === score.id)
+  increaseLikes(comment: CommentModel) {
+    if (comment.hasOwnProperty('replyingTo')) {
+      this.comments.update((comments) => {
+        const commentsWithReplies = comments.filter(
+          (comment) => comment.replies.length !== 0
         );
-        const findIndex = hello[0].replies.findIndex((v) => v.id === score.id);
-        hello[0].replies[findIndex].score += 1;
-        return value;
+        const commentsWithReplyID = commentsWithReplies.filter(
+          (commentWithReply) =>
+            commentWithReply.replies.find((reply) => reply.id === comment.id)
+        );
+        const replyIndex = commentsWithReplyID[0].replies.findIndex(
+          (reply) => reply.id === comment.id
+        );
+        commentsWithReplyID[0].replies[replyIndex].score += 1;
+        return comments;
       });
     } else {
-      this.comments.update((value) => {
-        const findIndex = value.findIndex((v) => v.id === score.id);
-        value[findIndex].score += 1;
-        return value;
+      this.comments.update((comments) => {
+        const commentIndex = comments.findIndex(
+          (comm) => comm.id === comment.id
+        );
+        comments[commentIndex].score += 1;
+        return comments;
       });
     }
   }
 
-  decreaseLikes(score: any) {
-    if (score.score === 0) {
+  decreaseLikes(comment: CommentModel) {
+    if (comment.score === 0) {
       return;
     }
-    if (score.hasOwnProperty('replyingTo')) {
-      this.comments.update((value) => {
-        const hi = value.filter((v) => v.replies.length !== 0);
-        const hello = hi.filter((v) =>
-          v.replies.find((c) => c.id === score.id)
+    if (comment.hasOwnProperty('replyingTo')) {
+      this.comments.update((comments) => {
+        const commentsWithReplies = comments.filter(
+          (comment) => comment.replies.length !== 0
         );
-        const findIndex = hello[0].replies.findIndex((v) => v.id === score.id);
-        hello[0].replies[findIndex].score -= 1;
-        return value;
+        const commentWithReplyID = commentsWithReplies.filter(
+          (commentWithReply) =>
+            commentWithReply.replies.find((reply) => reply.id === comment.id)
+        );
+        const replyIndex = commentWithReplyID[0].replies.findIndex(
+          (reply) => reply.id === comment.id
+        );
+        commentWithReplyID[0].replies[replyIndex].score -= 1;
+        return comments;
       });
     } else {
-      this.comments.update((value) => {
-        const findIndex = value.findIndex((v) => v.id === score.id);
-        value[findIndex].score -= 1;
-        return value;
+      this.comments.update((comments) => {
+        const commentIndex = comments.findIndex(
+          (comm) => comm.id === comment.id
+        );
+        comments[commentIndex].score -= 1;
+        return comments;
       });
     }
   }

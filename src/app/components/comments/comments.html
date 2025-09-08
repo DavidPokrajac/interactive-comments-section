@@ -2,16 +2,20 @@
 <div class="comment">
   <div class="likes-handler">
     <button (click)="comments.increaseLikes(comment)">
-      <img src="/images/icon-plus.svg" width="10.07" height="10" alt="" />
+      <img src="/images/icon-plus.svg" width="10.07" height="10" alt="Like" />
     </button>
     <span class="scores">{{ comment.score }}</span>
     <button (click)="comments.decreaseLikes(comment)">
-      <img src="/images/icon-minus.svg" width="10" height="2.5" alt="" />
+      <img src="/images/icon-minus.svg" width="10" height="2.5" alt="Dislike" />
     </button>
   </div>
   <div>
     <div class="comment-details">
-      <img [src]="comment.user.image.webp" alt="" class="user-profile" />
+      <img
+        [src]="comment.user.image.webp"
+        [alt]="'A mugshot of a user called ' + comment.user.username"
+        class="user-profile"
+      />
       <span class="username"
         >{{ comment.user.username }}
         @if(isCurrentUser === comment.user.username) {
@@ -24,7 +28,7 @@
         (click)="comments.showDeleteModal(comment.id, true)"
         class="delete-btn"
       >
-        <img src="/images/icon-delete.svg" alt="" />Delete
+        <img src="/images/icon-delete.svg" alt="Delete" />Delete
       </button>
       }
       <button
@@ -41,7 +45,7 @@
               ? '/images/icon-edit.svg'
               : '/images/icon-reply.svg'
           "
-          alt=""
+          [alt]="isCurrentUser === comment.user.username ? 'Edit' : 'Reply'"
           width="14"
           height="12"
         />{{ isCurrentUser === comment.user.username ? "Edit" : "Reply" }}
@@ -70,16 +74,20 @@ comment.id) {
   <div class="comment">
     <div class="likes-handler">
       <button (click)="comments.increaseLikes(reply)">
-        <img src="/images/icon-plus.svg" alt="" />
+        <img src="/images/icon-plus.svg" alt="Like" />
       </button>
       <span class="scores">{{ reply.score }}</span>
       <button (click)="comments.decreaseLikes(reply)">
-        <img src="/images/icon-minus.svg" alt="" />
+        <img src="/images/icon-minus.svg" alt="Dislike" />
       </button>
     </div>
     <div>
       <div class="comment-details">
-        <img [src]="reply.user.image.webp" alt="" class="user-profile" />
+        <img
+          [src]="reply.user.image.webp"
+          [alt]="'A mugshot of a user called ' + reply.user.username"
+          class="user-profile"
+        />
         <span class="username"
           >{{ reply.user.username }}
           @if(isCurrentUser === reply.user.username) {
@@ -92,7 +100,7 @@ comment.id) {
           (click)="comments.showDeleteModal(comment.id, false, reply.id)"
           class="delete-btn"
         >
-          <img src="/images/icon-delete.svg" alt="" />Delete
+          <img src="/images/icon-delete.svg" alt="Delete" />Delete
         </button>
         }
         <button
@@ -109,7 +117,7 @@ comment.id) {
                 ? '/images/icon-edit.svg'
                 : '/images/icon-reply.svg'
             "
-            alt=""
+            [alt]="isCurrentUser === reply.user.username ? 'Edit' : 'Reply'"
           />{{ isCurrentUser === reply.user.username ? "Edit" : "Reply" }}
         </button>
       </div>

@@ -3,6 +3,7 @@ import currentUser from '../../../../data.json';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { CommentsService } from '../../services/comments';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentModel } from '../../models/comment-model';
 
 @Component({
   selector: 'app-comment-input',
@@ -15,22 +16,9 @@ export class CommentInput {
   isReply = input();
   willReply = inject(CommentsService);
   repTop = input<string>();
-  label = input('');
+  label = input<string>('');
 
-  addCommentEvent = output<{
-    user: {
-      username: string;
-      image: {
-        webp: string;
-      };
-    };
-    content: string;
-    score: number;
-    isReplying: unknown;
-    id: string;
-    createdAt: string;
-    replyingTo?: string;
-  }>();
+  addCommentEvent = output<CommentModel>();
 
   newComment = new FormGroup({
     content: new FormControl(``, {

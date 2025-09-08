@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: fit-content;
   background-color: var(--clr-grey-50);
   border-radius: 10px;
@@ -16,11 +17,20 @@
 
   button {
     padding: 0;
+    width: 15px;
+
+    img {
+      margin: 0 auto;
+    }
   }
 
   button:hover {
     cursor: pointer;
     color: var(--clr-purple-600);
+
+    img {
+      filter: saturate(50) grayscale(25%);
+    }
   }
 }
 
