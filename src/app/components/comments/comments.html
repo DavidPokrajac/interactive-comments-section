@@ -35,7 +35,7 @@
         (click)="
           isCurrentUser === comment.user.username
             ? updateText(comment.id)
-            : replyTo(comment.id)
+            : comments.replyTo(comment.id)
         "
         class="reply-btn"
       >
@@ -65,7 +65,7 @@
 comment.id) {
 <app-comment-input
   [isReply]="willReply.willReply()"
-  (addCommentEvent)="addComment.addComment($event, comment.id)"
+  (addCommentEvent)="comments.addComment($event, comment.id)"
   label="Reply"
 />
 }
@@ -107,7 +107,7 @@ comment.id) {
           (click)="
             isCurrentUser === reply.user.username
               ? updateText(reply.id)
-              : replyTo(reply.id)
+              : comments.replyTo(reply.id)
           "
           class="reply-btn"
         >
@@ -142,7 +142,7 @@ comment.id) {
   reply.id) {
   <app-comment-input
     [isReply]="willReply.willReply()"
-    (addCommentEvent)="addComment.addComment($event, reply.id)"
+    (addCommentEvent)="comments.addComment($event, reply.id)"
     label="Reply"
   />
   } } }
